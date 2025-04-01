@@ -3,8 +3,8 @@
 YouTube Chat Downloader for Videos in Text File
 
 This script reads a tab-separated text file containing YouTube video information
-and runs a chat.py script to download the live chat replay for specific videos.
-The output stays in JSON format with the filename: <videoId>_live_chat.json
+and runs live_chat.py to download the live chat replay for specific videos.
+The output is saved in JSON format with the filename: <videoId>_live_chat.json
 
 The script checks if files already exist in both the current directory and a 'json'
 subdirectory before downloading, allowing for resuming interrupted processes
@@ -15,7 +15,7 @@ Usage:
 
 Arguments:
     TEXTFILE    Path to the tab-separated text file containing video information (required)
-    POSITION    Position of the video in text file to process (optional, defaults to 1)
+    POSITION    Position of the video in text file to process (optional)
                 If not provided, processes all videos in the file
 """
 
@@ -23,6 +23,7 @@ import sys
 import os
 import subprocess
 import re
+import shutil
 
 def read_text_file(text_path):
     """Read video information from a tab-separated text file."""
@@ -77,38 +78,61 @@ def read_text_file(text_path):
         print(f"Error reading text file: {e}")
         sys.exit(1)
 
-def run_chat_script(video_id):
-    """Run the chat.py script to download chat data for a specific video."""
-    # Define possible locations for the JSON file
+def run_live_chat_script(video_id):
+    """Run the live_chat.py script to download chat data for a specific video."""
+    # Define expected output filenames
     expected_output = f"{video_id}_live_chat.json"
+    live_chat_output = f"{video_id}_live_chat_replay.json"
+    
     possible_locations = [
-        expected_output,                           # Current directory
-        os.path.join("json", expected_output)      # json subdirectory
+        expected_output,                           # Standard output name
+        live_chat_output,                          # Output name from live_chat.py
+        os.path.join("json", expected_output),     # json subdirectory with standard name
+        os.path.join("json", live_chat_output)     # json subdirectory with live_chat.py name
     ]
     
     # Check if the JSON file already exists in any location
     for file_path in possible_locations:
         if os.path.exists(file_path):
-            print(f"Chat data already exists at {file_path}. Skipping download.")
-            return file_path
+            print(f"Chat data already exists at {file_path}.")
+            
+            # If it's already in the expected format, just return it
+            if file_path == expected_output or file_path == os.path.join("json", expected_output):
+                return file_path
+            
+            # Otherwise, we'll need to rename it to the expected format
+            target_path = expected_output if os.path.dirname(file_path) == "" else os.path.join("json", expected_output)
+            print(f"Renaming {file_path} to {target_path} for consistency...")
+            shutil.copy2(file_path, target_path)
+            return target_path
     
     try:
-        # Run the chat.py script with the video ID
-        cmd = ["python3", "chat.py", video_id]
+        # Create json directory if it doesn't exist
+        if not os.path.exists("json"):
+            os.makedirs("json")
+        
+        # Run the live_chat.py script with the video ID
+        cmd = ["python3", "live_chat.py", video_id, "-o", "json"]
         print(f"Running: {' '.join(cmd)}")
         
         # Execute the command
         result = subprocess.run(cmd, check=True, capture_output=True, text=True)
         
-        # Check again for the output file in possible locations
-        for file_path in possible_locations:
-            if os.path.exists(file_path):
-                return file_path
+        # The live_chat.py script outputs to <videoId>_live_chat_replay.json
+        src_file = os.path.join("json", live_chat_output)
+        dst_file = os.path.join("json", expected_output)
+        
+        # Check if the output file was created
+        if os.path.exists(src_file):
+            # Rename to our expected format for consistency
+            print(f"Renaming {src_file} to {dst_file} for consistency...")
+            shutil.copy2(src_file, dst_file)
+            return dst_file
                 
-        print(f"Warning: Expected output file {expected_output} not found after running chat.py")
+        print(f"Warning: Expected output file not found after running live_chat.py")
         return None
     except subprocess.CalledProcessError as e:
-        print(f"Error running chat.py: {e}")
+        print(f"Error running live_chat.py: {e}")
         print(f"Script output: {e.stdout}")
         print(f"Script error: {e.stderr}")
         return None
@@ -126,19 +150,33 @@ def process_video(video):
     
     # Expected JSON filename
     json_filename = f"{video_id}_live_chat.json"
+    live_chat_filename = f"{video_id}_live_chat_replay.json"
+    
     possible_locations = [
-        json_filename,                       # Current directory
-        os.path.join("json", json_filename)  # json subdirectory
+        json_filename,                           # Standard output name
+        live_chat_filename,                      # Output name from live_chat.py
+        os.path.join("json", json_filename),     # json subdirectory with standard name
+        os.path.join("json", live_chat_filename) # json subdirectory with live_chat.py name
     ]
     
     # Check if output file already exists in any location
     for file_path in possible_locations:
         if os.path.exists(file_path):
-            print(f"Chat data file already exists at {file_path}. Skipping download.")
+            print(f"Chat data file already exists at {file_path}.")
+            
+            # If it's not in the expected format, rename it
+            expected_path = os.path.join("json", json_filename)
+            if file_path != expected_path:
+                print(f"Copying to {expected_path} for consistency...")
+                # Ensure json directory exists
+                if not os.path.exists("json"):
+                    os.makedirs("json")
+                shutil.copy2(file_path, expected_path)
+            
             return True
     
-    # Run the chat.py script
-    output_file = run_chat_script(video_id)
+    # Run the live_chat.py script
+    output_file = run_live_chat_script(video_id)
     if not output_file:
         print(f"Failed to get chat data for video: {title}")
         return False
