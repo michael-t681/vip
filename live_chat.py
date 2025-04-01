@@ -4,6 +4,7 @@ YouTube Live Chat Replay Downloader
 -----------------------------------
 This script downloads the live chat replay from YouTube videos by extracting
 the live chat JSON data directly from the video metadata.
+Handles both JSON and XML responses from YouTube.
 """
 
 import argparse
@@ -14,6 +15,7 @@ import requests
 import sys
 import time
 from urllib.parse import parse_qs, urlparse
+import xml.etree.ElementTree as ET
 
 USER_AGENTS = {
     "chrome": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
@@ -113,6 +115,52 @@ def get_continuation_tokens(yt_data):
     
     return None
 
+def is_xml(content):
+    """Check if content is XML by looking for XML declaration or root tags."""
+    if content.strip().startswith('<?xml') or re.match(r'^\s*<\w+[^>]*>', content):
+        return True
+    return False
+
+def xml_to_json(xml_content):
+    """Convert XML content to JSON format."""
+    try:
+        root = ET.fromstring(xml_content)
+        
+        # Create a simple dictionary representation
+        def element_to_dict(element):
+            result = {}
+            
+            # Add attributes
+            if element.attrib:
+                result['@attributes'] = element.attrib
+            
+            # Add child elements
+            for child in element:
+                child_dict = element_to_dict(child)
+                
+                if child.tag in result:
+                    # If this tag already exists, convert to list or append
+                    if not isinstance(result[child.tag], list):
+                        result[child.tag] = [result[child.tag]]
+                    result[child.tag].append(child_dict)
+                else:
+                    result[child.tag] = child_dict
+            
+            # Add text content if it exists and there are no children
+            if element.text and element.text.strip() and not list(element):
+                if result:  # If we already have attributes
+                    result['#text'] = element.text.strip()
+                else:
+                    result = element.text.strip()
+            
+            return result
+        
+        return {root.tag: element_to_dict(root)}
+    except Exception as e:
+        print(f"Error converting XML to JSON: {e}")
+        # Return simplified format
+        return {"xml_content": xml_content}
+
 def fetch_chat_replay(video_id, user_agent, output_dir="."):
     """Fetch and save the live chat replay."""
     print(f"Fetching live chat replay for video ID: {video_id}")
@@ -154,18 +202,27 @@ def fetch_chat_replay(video_id, user_agent, output_dir="."):
         sys.exit(1)
     
     # Determine appropriate filename
-    output_file = os.path.join(output_dir, f"{video_id}_live_chat_replay.json")
+    output_file = os.path.join(output_dir, f"{video_id}_live_chat.json")
     
-    # Save the raw chat data
+    # Process and save the data
+    content = response.text
+    
     try:
         with open(output_file, "w", encoding="utf-8") as f:
-            # Try to parse as JSON first
-            try:
-                chat_data = response.json()
-                json.dump(chat_data, f, ensure_ascii=False, indent=2)
-            except json.JSONDecodeError:
-                # If not valid JSON, save as raw text
-                f.write(response.text)
+            # First check if it's XML
+            if is_xml(content):
+                print("Detected XML response, converting to JSON format...")
+                json_data = xml_to_json(content)
+                json.dump(json_data, f, ensure_ascii=False, indent=2)
+            else:
+                # Try to parse as JSON
+                try:
+                    chat_data = json.loads(content)
+                    json.dump(chat_data, f, ensure_ascii=False, indent=2)
+                except json.JSONDecodeError:
+                    # If not valid JSON, create a simple JSON wrapper
+                    print("Warning: Response is not valid JSON or XML, wrapping in a JSON object...")
+                    json.dump({"raw_content": content}, f, ensure_ascii=False, indent=2)
         
         print(f"Successfully saved live chat replay to: {output_file}")
         return output_file

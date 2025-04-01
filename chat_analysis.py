@@ -151,66 +151,76 @@ def generate_visualizations(df, file_name, output_dir):
         print("No data available for visualization.")
         return
     
-    # Create visualizations directory
-    viz_dir = os.path.join(output_dir, "visualizations")
-    if not os.path.exists(viz_dir):
-        os.makedirs(viz_dir)
+    # Extract video ID from the filename
+    video_id = os.path.basename(file_name).split('_')[0]
     
-    # Base name for output files
-    base_name = os.path.splitext(os.path.basename(file_name))[0]
+    # Create the output directory if it doesn't exist
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
     
     # 1. Comments over time (by minute)
     if 'minute_mark' in df.columns:
         plt.figure(figsize=(12, 6))
+        
+        # Group by minute and count comments - NOT accumulating
         minute_counts = df.groupby('minute_mark').size()
-        minute_counts.plot(kind='bar', color='skyblue')
+        
+        # Sort by minute mark for chronological order
+        minute_counts = minute_counts.sort_index()
+        
+        # Convert minute marks to readable time format for x-axis
+        minute_labels = [f"{m//60:02d}:{m%60:02d}" for m in minute_counts.index]
+        
+        # Plot the data
+        plt.bar(range(len(minute_counts)), minute_counts.values, color='skyblue')
+        
+        # Set x-axis ticks and labels (showing fewer labels to avoid crowding)
+        tick_spacing = max(1, len(minute_counts) // 20)  # Show ~20 labels at most
+        plt.xticks(
+            range(0, len(minute_counts), tick_spacing),
+            [minute_labels[i] for i in range(0, len(minute_counts), tick_spacing)],
+            rotation=45
+        )
+        
         plt.title('Comments per Minute')
-        plt.xlabel('Stream Minute')
+        plt.xlabel('Stream Time (HH:MM)')
         plt.ylabel('Number of Comments')
         plt.tight_layout()
-        plt.savefig(os.path.join(viz_dir, f"{base_name}_comments_per_minute.png"))
-    
-    # 2. Top commenters
-    plt.figure(figsize=(12, 6))
-    author_column = 'author_name' if 'author_name' in df.columns else 'author'
-    top_commenters = df[author_column].value_counts().head(10)
-    top_commenters.plot(kind='barh', color='lightgreen')
-    plt.title('Top 10 Commenters')
-    plt.xlabel('Number of Comments')
-    plt.ylabel('Author')
-    plt.tight_layout()
-    plt.savefig(os.path.join(viz_dir, f"{base_name}_top_commenters.png"))
-    
-    # 3. Comments by 5-minute interval
+        plt.savefig(os.path.join(output_dir, f"{video_id}_comments_per_minute.png"))
+        plt.close()
+
+    # 2. Comments by 5-minute interval
     if 'five_minute_interval' in df.columns:
         plt.figure(figsize=(12, 6))
+        
+        # Group by 5-minute interval and count comments - NOT accumulating
         five_min_intervals = df.groupby('five_minute_interval').size()
-        five_min_intervals.plot(kind='bar', color='coral')
+        
+        # Sort by interval for chronological order
+        five_min_intervals = five_min_intervals.sort_index()
+        
+        # Convert interval to readable time format for x-axis
+        interval_labels = [f"{m//60:02d}:{m%60:02d}" for m in five_min_intervals.index]
+        
+        # Plot the data
+        plt.bar(range(len(five_min_intervals)), five_min_intervals.values, color='coral')
+        
+        # Set x-axis ticks and labels (showing fewer labels to avoid crowding)
+        tick_spacing = max(1, len(five_min_intervals) // 15)  # Show ~15 labels at most
+        plt.xticks(
+            range(0, len(five_min_intervals), tick_spacing),
+            [interval_labels[i] for i in range(0, len(five_min_intervals), tick_spacing)],
+            rotation=45
+        )
+        
         plt.title('Comments by 5-Minute Intervals')
-        plt.xlabel('Interval (minutes from start)')
+        plt.xlabel('Stream Time (HH:MM)')
         plt.ylabel('Number of Comments')
         plt.tight_layout()
-        plt.savefig(os.path.join(viz_dir, f"{base_name}_five_minute_intervals.png"))
+        plt.savefig(os.path.join(output_dir, f"{video_id}_five_minute_intervals.png"))
+        plt.close()
     
-    # 4. Member vs non-member comments
-    if 'is_member' in df.columns:
-        plt.figure(figsize=(8, 8))
-        member_counts = df['is_member'].value_counts()
-        plt.pie(member_counts, labels=['Regular', 'Member'], 
-                autopct='%1.1f%%', colors=['#ff9999','#66b3ff'])
-        plt.title('Member vs Regular Comments')
-        plt.savefig(os.path.join(viz_dir, f"{base_name}_member_ratio.png"))
-    
-    # 5. Superchat distribution
-    if 'is_superchat' in df.columns and df['is_superchat'].sum() > 0:
-        plt.figure(figsize=(8, 8))
-        superchat_counts = df['is_superchat'].value_counts()
-        plt.pie(superchat_counts, labels=['Regular', 'Superchat'], 
-                autopct='%1.1f%%', colors=['#c2c2f0','#ffcc99'])
-        plt.title('Superchat Distribution')
-        plt.savefig(os.path.join(viz_dir, f"{base_name}_superchat_ratio.png"))
-    
-    print(f"Visualizations saved to {viz_dir}")
+    print(f"Visualizations saved to {output_dir}")
 
 def print_analysis_summary(analysis, file_name):
     """Print a summary of the chat analysis."""
