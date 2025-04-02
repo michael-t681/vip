@@ -1,0 +1,212 @@
+[
+  {
+    "five_minute_interval": -5,
+    "comment_count": 2,
+    "start_time": "-00:05:00",
+    "end_time": "00:00:00"
+  },
+  {
+    "five_minute_interval": 0,
+    "comment_count": 136,
+    "start_time": "00:00:00",
+    "end_time": "00:05:00"
+  },
+  {
+    "five_minute_interval": 5,
+    "comment_count": 132,
+    "start_time": "00:05:00",
+    "end_time": "00:10:00"
+  },
+  {
+    "five_minute_interval": 10,
+    "comment_count": 110,
+    "start_time": "00:10:00",
+    "end_time": "00:15:00"
+  },
+  {
+    "five_minute_interval": 15,
+    "comment_count": 128,
+    "start_time": "00:15:00",
+    "end_time": "00:20:00"
+  },
+  {
+    "five_minute_interval": 20,
+    "comment_count": 102,
+    "start_time": "00:20:00",
+    "end_time": "00:25:00"
+  },
+  {
+    "five_minute_interval": 25,
+    "comment_count": 101,
+    "start_time": "00:25:00",
+    "end_time": "00:30:00"
+  },
+  {
+    "five_minute_interval": 30,
+    "comment_count": 93,
+    "start_time": "00:30:00",
+    "end_time": "00:35:00"
+  },
+  {
+    "five_minute_interval": 35,
+    "comment_count": 73,
+    "start_time": "00:35:00",
+    "end_time": "00:40:00"
+  },
+  {
+    "five_minute_interval": 40,
+    "comment_count": 174,
+    "start_time": "00:40:00",
+    "end_time": "00:45:00"
+  },
+  {
+    "five_minute_interval": 45,
+    "comment_count": 203,
+    "start_time": "00:45:00",
+    "end_time": "00:50:00"
+  },
+  {
+    "five_minute_interval": 50,
+    "comment_count": 91,
+    "start_time": "00:50:00",
+    "end_time": "00:55:00"
+  },
+  {
+    "five_minute_interval": 55,
+    "comment_count": 107,
+    "start_time": "00:55:00",
+    "end_time": "01:00:00"
+  },
+  {
+    "five_minute_interval": 60,
+    "comment_count": 113,
+    "start_time": "01:00:00",
+    "end_time": "01:05:00"
+  },
+  {
+    "five_minute_interval": 65,
+    "comment_count": 101,
+    "start_time": "01:05:00",
+    "end_time": "01:10:00"
+  },
+  {
+    "five_minute_interval": 70,
+    "comment_count": 110,
+    "start_time": "01:10:00",
+    "end_time": "01:15:00"
+  },
+  {
+    "five_minute_interval": 75,
+    "comment_count": 107,
+    "start_time": "01:15:00",
+    "end_time": "01:20:00"
+  },
+  {
+    "five_minute_interval": 80,
+    "comment_count": 70,
+    "start_time": "01:20:00",
+    "end_time": "01:25:00"
+  },
+  {
+    "five_minute_interval": 85,
+    "comment_count": 100,
+    "start_time": "01:25:00",
+    "end_time": "01:30:00"
+  },
+  {
+    "five_minute_interval": 90,
+    "comment_count": 110,
+    "start_time": "01:30:00",
+    "end_time": "01:35:00"
+  },
+  {
+    "five_minute_interval": 95,
+    "comment_count": 94,
+    "start_time": "01:35:00",
+    "end_time": "01:40:00"
+  },
+  {
+    "five_minute_interval": 100,
+    "comment_count": 107,
+    "start_time": "01:40:00",
+    "end_time": "01:45:00"
+  },
+  {
+    "five_minute_interval": 105,
+    "comment_count": 88,
+    "start_time": "01:45:00",
+    "end_time": "01:50:00"
+  },
+  {
+    "five_minute_interval": 110,
+    "comment_count": 111,
+    "start_time": "01:50:00",
+    "end_time": "01:55:00"
+  },
+  {
+    "five_minute_interval": 115,
+    "comment_count": 86,
+    "start_time": "01:55:00",
+    "end_time": "02:00:00"
+  },
+  {
+    "five_minute_interval": 120,
+    "comment_count": 83,
+    "start_time": "02:00:00",
+    "end_time": "02:05:00"
+  },
+  {
+    "five_minute_interval": 125,
+    "comment_count": 127,
+    "start_time": "02:05:00",
+    "end_time": "02:10:00"
+  },
+  {
+    "five_minute_interval": 130,
+    "comment_count": 133,
+    "start_time": "02:10:00",
+    "end_time": "02:15:00"
+  },
+  {
+    "five_minute_interval": 135,
+    "comment_count": 201,
+    "start_time": "02:15:00",
+    "end_time": "02:20:00"
+  },
+  {
+    "five_minute_interval": 140,
+    "comment_count": 180,
+    "start_time": "02:20:00",
+    "end_time": "02:25:00"
+  },
+  {
+    "five_minute_interval": 145,
+    "comment_count": 141,
+    "start_time": "02:25:00",
+    "end_time": "02:30:00"
+  },
+  {
+    "five_minute_interval": 150,
+    "comment_count": 162,
+    "start_time": "02:30:00",
+    "end_time": "02:35:00"
+  },
+  {
+    "five_minute_interval": 155,
+    "comment_count": 150,
+    "start_time": "02:35:00",
+    "end_time": "02:40:00"
+  },
+  {
+    "five_minute_interval": 160,
+    "comment_count": 160,
+    "start_time": "02:40:00",
+    "end_time": "02:45:00"
+  },
+  {
+    "five_minute_interval": 165,
+    "comment_count": 13,
+    "start_time": "02:45:00",
+    "end_time": "02:50:00"
+  }
+]

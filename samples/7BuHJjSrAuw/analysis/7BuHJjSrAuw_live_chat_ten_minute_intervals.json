@@ -1,0 +1,170 @@
+[
+  {
+    "ten_minute_interval": -10,
+    "comment_count": 6,
+    "start_time": "-00:10:00",
+    "end_time": "00:00:00"
+  },
+  {
+    "ten_minute_interval": 0,
+    "comment_count": 304,
+    "start_time": "00:00:00",
+    "end_time": "00:10:00"
+  },
+  {
+    "ten_minute_interval": 10,
+    "comment_count": 325,
+    "start_time": "00:10:00",
+    "end_time": "00:20:00"
+  },
+  {
+    "ten_minute_interval": 20,
+    "comment_count": 156,
+    "start_time": "00:20:00",
+    "end_time": "00:30:00"
+  },
+  {
+    "ten_minute_interval": 30,
+    "comment_count": 108,
+    "start_time": "00:30:00",
+    "end_time": "00:40:00"
+  },
+  {
+    "ten_minute_interval": 40,
+    "comment_count": 142,
+    "start_time": "00:40:00",
+    "end_time": "00:50:00"
+  },
+  {
+    "ten_minute_interval": 50,
+    "comment_count": 104,
+    "start_time": "00:50:00",
+    "end_time": "01:00:00"
+  },
+  {
+    "ten_minute_interval": 60,
+    "comment_count": 170,
+    "start_time": "01:00:00",
+    "end_time": "01:10:00"
+  },
+  {
+    "ten_minute_interval": 70,
+    "comment_count": 257,
+    "start_time": "01:10:00",
+    "end_time": "01:20:00"
+  },
+  {
+    "ten_minute_interval": 80,
+    "comment_count": 183,
+    "start_time": "01:20:00",
+    "end_time": "01:30:00"
+  },
+  {
+    "ten_minute_interval": 90,
+    "comment_count": 146,
+    "start_time": "01:30:00",
+    "end_time": "01:40:00"
+  },
+  {
+    "ten_minute_interval": 100,
+    "comment_count": 136,
+    "start_time": "01:40:00",
+    "end_time": "01:50:00"
+  },
+  {
+    "ten_minute_interval": 110,
+    "comment_count": 156,
+    "start_time": "01:50:00",
+    "end_time": "02:00:00"
+  },
+  {
+    "ten_minute_interval": 120,
+    "comment_count": 149,
+    "start_time": "02:00:00",
+    "end_time": "02:10:00"
+  },
+  {
+    "ten_minute_interval": 130,
+    "comment_count": 139,
+    "start_time": "02:10:00",
+    "end_time": "02:20:00"
+  },
+  {
+    "ten_minute_interval": 140,
+    "comment_count": 136,
+    "start_time": "02:20:00",
+    "end_time": "02:30:00"
+  },
+  {
+    "ten_minute_interval": 150,
+    "comment_count": 134,
+    "start_time": "02:30:00",
+    "end_time": "02:40:00"
+  },
+  {
+    "ten_minute_interval": 160,
+    "comment_count": 175,
+    "start_time": "02:40:00",
+    "end_time": "02:50:00"
+  },
+  {
+    "ten_minute_interval": 170,
+    "comment_count": 183,
+    "start_time": "02:50:00",
+    "end_time": "03:00:00"
+  },
+  {
+    "ten_minute_interval": 180,
+    "comment_count": 243,
+    "start_time": "03:00:00",
+    "end_time": "03:10:00"
+  },
+  {
+    "ten_minute_interval": 190,
+    "comment_count": 277,
+    "start_time": "03:10:00",
+    "end_time": "03:20:00"
+  },
+  {
+    "ten_minute_interval": 200,
+    "comment_count": 223,
+    "start_time": "03:20:00",
+    "end_time": "03:30:00"
+  },
+  {
+    "ten_minute_interval": 210,
+    "comment_count": 171,
+    "start_time": "03:30:00",
+    "end_time": "03:40:00"
+  },
+  {
+    "ten_minute_interval": 220,
+    "comment_count": 227,
+    "start_time": "03:40:00",
+    "end_time": "03:50:00"
+  },
+  {
+    "ten_minute_interval": 230,
+    "comment_count": 287,
+    "start_time": "03:50:00",
+    "end_time": "04:00:00"
+  },
+  {
+    "ten_minute_interval": 240,
+    "comment_count": 193,
+    "start_time": "04:00:00",
+    "end_time": "04:10:00"
+  },
+  {
+    "ten_minute_interval": 250,
+    "comment_count": 207,
+    "start_time": "04:10:00",
+    "end_time": "04:20:00"
+  },
+  {
+    "ten_minute_interval": 260,
+    "comment_count": 63,
+    "start_time": "04:20:00",
+    "end_time": "04:30:00"
+  }
+]
